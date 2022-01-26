@@ -1,5 +1,7 @@
 SELECT
     date_week,
+    age,
+    diagnosis_type,
     sum(count)
 FROM
     inek.imp_data
@@ -28,5 +30,11 @@ WHERE
         'I32.1',
         'I32.8'
     )
+    AND age = "18-29"
+    AND diagnosis_type = "Hauptdiagnose"
 GROUP BY
+    age,
+    diagnosis_type,
+    date_week
+ORDER BY
     date_week;
