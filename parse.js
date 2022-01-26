@@ -127,7 +127,9 @@ const start = async () => {
         '60-64', '65-74', '75-79', '80+'
     ]
 
-    child_process.execSync(`rm ./data.csv`)
+    try {
+        child_process.execSync(`rm ./data.csv`)
+    } catch (e) { }
     let result = '"date_week","age","diagnosis_type","code","description","count","percentage"' + os.EOL
     fs.writeFileSync(`./data.csv`, result, function (err) {
         if (err) return console.log(err);
