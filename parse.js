@@ -45,7 +45,7 @@ function makeColumns(alphabet) {
     return result;
 }
 
-function makeCsv(date, rows) {
+function makeCsv(date, diagnose, rows) {
     let columns = Object.keys(rows[0])
     let last_column = columns[columns.length - 1]
     let sub_alpha = alphabet.slice(0, alphabet.indexOf(last_column) + 1)
@@ -54,7 +54,7 @@ function makeCsv(date, rows) {
     for (const row of rows) {
         let row_content = []
         for (const char of sub_alpha) row_content.push(row[char])
-        result += `"${date}",` + '"' + Object.values(row_content).join('","') + '"' + os.EOL
+        result += `"${date}",` + `"${diagnose}",` + '"' + Object.values(row_content).join('","') + '"' + os.EOL
     }
     return result
 }
@@ -70,7 +70,7 @@ function convertDate(dateString) {
 }
 
 async function main() {
-    let result = '"date_week","code","description","count","percentage"' + os.EOL
+    let result = '"date_week","diagnosis_type","code","description","count","percentage"' + os.EOL
     for (let i = 1; i <= 144; i++) {
         const file = `./xls/data${i}.xlsx`
         console.log(`Processing ${file}...`)
@@ -79,8 +79,10 @@ async function main() {
         let dateInfo = extractStart(dateString)
         let date = convertDate(dateInfo.start)
 
-        let data2 = await parseXls(file, "Hauptdiagnosen", 1)
-        result += makeCsv(date, data2)
+        let hauptdiagnosen = await parseXls(file, "Hauptdiagnosen", 1)
+        result += makeCsv(date, "Hauptdiagnose", hauptdiagnosen)
+        let nebendiagnosen = await parseXls(file, "Nebendiagnosen", 1)
+        result += makeCsv(date, "Nebendiagnose", nebendiagnosen)
     }
 
     fs.writeFile('data.csv', result, function (err) {
