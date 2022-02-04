@@ -35,10 +35,18 @@ function parseXls(filename, sheetname, rowsToSkip) {
 
 function extractInfo(str) {
     let info = str.match(/\((.*?)\)/g)
-    return {
-        age: info[0].replace('(', '').replace(' Jahre)', ''),
-        start: info[1].replace('(', '').replace(')', ''),
-        end: info[2].replace('(', '').replace(')', '')
+    if (info.length === 3) {
+        return {
+            age: info[0].replace('(', '').replace(' Jahre)', ''),
+            start: info[1].replace('(', '').replace(')', ''),
+            end: info[2].replace('(', '').replace(')', '')
+        }
+    } else {
+        return {
+            age: "all",
+            start: info[0].replace('(', '').replace(')', ''),
+            end: info[1].replace('(', '').replace(')', '')
+        }
     }
 }
 
@@ -127,20 +135,25 @@ const start = async () => {
         '60-64', '65-74', '75-79', '80+'
     ]
 
-    try {
-        child_process.execSync(`rm ./data.csv`)
-    } catch (e) { }
-    let result = '"date_week","age","diagnosis_type","code","description","count","percentage"' + os.EOL
-    fs.writeFileSync(`./data.csv`, result, function (err) {
+    // try {
+    //     child_process.execSync(`rm ./data.csv`)
+    // } catch (e) { }
+    // let result = '"date_week","age","diagnosis_type","code","description","count","percentage"' + os.EOL
+    // fs.writeFileSync(`./data.csv`, result, function (err) {
+    //     if (err) return console.log(err);
+    // });
+
+    // await asyncForEach(folders, async (ageGroup) => {
+    //     let result = await extractAgeGroup(ageGroup);
+    //     fs.appendFileSync(`./data.csv`, result, function (err) {
+    //         if (err) return console.log(err);
+    //     });
+    // })
+
+    let result = await extractAgeGroup("all");
+    fs.appendFileSync(`./data.csv`, result, function (err) {
         if (err) return console.log(err);
     });
-
-    await asyncForEach(folders, async (ageGroup) => {
-        let result = await extractAgeGroup(ageGroup);
-        fs.appendFileSync(`./data.csv`, result, function (err) {
-            if (err) return console.log(err);
-        });
-    })
 }
 
 start()
