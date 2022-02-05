@@ -6,5 +6,6 @@ FROM
 WHERE
     description LIKE '%Myokarditis%'
     OR description LIKE '%Perikarditis%'
+    AND age = "all"
 GROUP BY
     date_week;

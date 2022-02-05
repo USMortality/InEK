@@ -5,5 +5,6 @@ FROM
     inek.imp_data
 WHERE
     code IN ('Y59.9', 'T88.0', 'T88.1', 'U12.9')
+    AND age = 'all'
 GROUP BY
     date_week;

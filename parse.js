@@ -109,7 +109,7 @@ async function print() {
 async function extractAgeGroup(ageGroup) {
     let result = ""
     let keys = {}
-    for (let i = 1; i <= 144; i++) {
+    for (let i = 145; i <= 157; i++) {
         const file = `./xls/${ageGroup}/data${i}.xlsx`
         console.log(`Processing ${file}...`)
         let data = await parseXls(file, "Info", 1)
@@ -125,7 +125,7 @@ async function extractAgeGroup(ageGroup) {
         let nebendiagnosen = await parseXls(file, "Nebendiagnosen", 1)
         result += makeCsv(date, info.age, "Nebendiagnose", nebendiagnosen)
     }
-    if (Object.keys(keys).length !== 144) throw new Error(`Week missing, ${ageGroup}`)
+    if (Object.keys(keys).length !== 12) throw new Error(`Week missing, ${ageGroup}`)
     return result
 }
 

@@ -24,4 +24,4 @@ docker run --name db -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d -p 3306:3306 mariadb:
 ```
 
 # Generated Queries from:
-https://docs.google.com/spreadsheets/d/1um4KVTIK-fo98GlERS1XOFOzhrwmA2K6Hi7fulpiSXw/edit#gid=0
+https://docs.google.com/spreadsheets/d/1FatQtAecefalL5TZp_NdJEeSzI6aWUO5yCAsJo9jy70/edit?usp=sharing
