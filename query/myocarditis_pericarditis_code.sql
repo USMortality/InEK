@@ -29,7 +29,8 @@ WHERE
         'I32.1',
         'I32.8'
     )
-    AND age = "all" -- AND diagnosis_type = "Hauptdiagnose"
+    AND age = "all"
+    AND diagnosis_type = "Hauptdiagnose"
 GROUP BY
     age,
     date_week
