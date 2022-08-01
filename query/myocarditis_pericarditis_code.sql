@@ -1,7 +1,7 @@
 SELECT
     date_week,
     age,
-    sum(count)
+    sum(count) as 'count'
 FROM
     inek.imp_data
 WHERE
@@ -30,7 +30,7 @@ WHERE
         'I32.8'
     )
     AND age = "all"
-    AND diagnosis_type = "Hauptdiagnose"
+    -- AND diagnosis_type = "Hauptdiagnose"
 GROUP BY
     age,
     date_week

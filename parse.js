@@ -90,8 +90,9 @@ async function print() {
     let keys = {}
 
     let result = '"date_week","ageGroup","diagnosis_type","code","description","count","percentage"' + os.EOL
-    for (let i = 1; i <= 146; i++) {
-        const file = `/Users/ben/Downloads/16-17/data${i}.xlsx`
+    for (let i = 0; i <= 52; i++) {
+        const file = `/Users/ben/Downloads/2021/data${i}.xlsx`
+        // console.log(file)
         let data
         try {
             data = await parseXls(file, "Info", 1)
@@ -99,6 +100,7 @@ async function print() {
         let infoString = data[0]['A']
         let info = extractInfo(infoString)
         let date = convertDate(info.start)
+        console.log(date)
         if (keys[date] === 1) throw new Error(`Duplicate date detected, ${file}`)
         else keys[date] = 1
     }
@@ -109,7 +111,7 @@ async function print() {
 async function extractAgeGroup(ageGroup) {
     let result = ""
     let keys = {}
-    for (let i = 145; i <= 157; i++) {
+    for (let i = 1; i <= 182; i++) {
         const file = `./xls/${ageGroup}/data${i}.xlsx`
         console.log(`Processing ${file}...`)
         let data = await parseXls(file, "Info", 1)
@@ -125,7 +127,7 @@ async function extractAgeGroup(ageGroup) {
         let nebendiagnosen = await parseXls(file, "Nebendiagnosen", 1)
         result += makeCsv(date, info.age, "Nebendiagnose", nebendiagnosen)
     }
-    if (Object.keys(keys).length !== 12) throw new Error(`Week missing, ${ageGroup}`)
+    // if (Object.keys(keys).length !== 12) throw new Error(`Week missing, ${ageGroup}`)
     return result
 }
 
@@ -135,13 +137,13 @@ const start = async () => {
         '60-64', '65-74', '75-79', '80+'
     ]
 
-    // try {
-    //     child_process.execSync(`rm ./data.csv`)
-    // } catch (e) { }
-    // let result = '"date_week","age","diagnosis_type","code","description","count","percentage"' + os.EOL
-    // fs.writeFileSync(`./data.csv`, result, function (err) {
-    //     if (err) return console.log(err);
-    // });
+    try {
+        child_process.execSync(`rm ./data.csv`)
+    } catch (e) { }
+    let result = '"date_week","age","diagnosis_type","code","description","count","percentage"' + os.EOL
+    fs.writeFileSync(`./data.csv`, result, function (err) {
+        if (err) return console.log(err);
+    });
 
     // await asyncForEach(folders, async (ageGroup) => {
     //     let result = await extractAgeGroup(ageGroup);
@@ -150,7 +152,7 @@ const start = async () => {
     //     });
     // })
 
-    let result = await extractAgeGroup("all");
+    result = await extractAgeGroup("all");
     fs.appendFileSync(`./data.csv`, result, function (err) {
         if (err) return console.log(err);
     });

@@ -11,7 +11,7 @@ WHERE
         'I25.22',
         'I25.29'
     )
-    AND age = "18-29"
+    -- AND age = "18-29"
     AND diagnosis_type = "Hauptdiagnose"
 GROUP BY
     age,
