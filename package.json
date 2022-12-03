@@ -12,6 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "convert-excel-to-json": "^1.7.0",
-    "puppeteer": "^13.1.0"
+    "puppeteer": "^19.3.0"
   }
 }
